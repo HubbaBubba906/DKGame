@@ -4,17 +4,18 @@ import com.badlogic.gdx.Game;
 import gdx.menu.Screens.ScrMenu;
 import gdx.menu.Screens.ScrPlay;
 import gdx.menu.Screens.ScrGameover;
+import gdx.menu.Screens.ScrTutorial;
 
 public class GdxMenu extends Game {
 
     ScrMenu scrMenu;
     ScrPlay scrPlay;
     ScrGameover scrGameover;
+    ScrTutorial scrTutorial;
 
     // the below enumeration clearly defines the list of permissible screens.
     public enum GameState {
-
-        MENU, PLAY, OVER
+        MENU, PLAY, OVER , TUTORIAL
     }
     public GameState gameState;
     public GameState currentState;
@@ -27,6 +28,8 @@ public class GdxMenu extends Game {
             setScreen(scrPlay);
         } else if (currentState == gameState.OVER) {
             setScreen(scrGameover);
+        } else if (currentState == gameState.TUTORIAL) {
+            setScreen(scrTutorial);
         }
     }
 
@@ -36,6 +39,7 @@ public class GdxMenu extends Game {
         scrMenu = new ScrMenu(this);
         scrPlay = new ScrPlay(this);
         scrGameover = new ScrGameover(this);
+        scrTutorial = new ScrTutorial(this);
         currentState = GameState.MENU;
         updateState();
     }

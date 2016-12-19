@@ -37,12 +37,12 @@ public class ScrGameover implements Screen, InputProcessor {
         tbsMenu = new TbsMenu();
         batch = new SpriteBatch();
         screenName = new BitmapFont();
-        tbPlay = new TbMenu("BACK", tbsMenu);
+        tbPlay = new TbMenu("PLAY AGAIN", tbsMenu);
         tbMenu = new TbMenu("MENU", tbsMenu);
         tbPlay.setY(0);
-        tbPlay.setX(0);
+        tbPlay.setX(440);
         tbMenu.setY(0);
-        tbMenu.setX(440);
+        tbMenu.setX(0);
         stage.addActor(tbMenu);
         stage.addActor(tbPlay);
         Gdx.input.setInputProcessor(stage);
@@ -75,6 +75,7 @@ public class ScrGameover implements Screen, InputProcessor {
                 gdxMenu.currentState = gdxMenu.gameState.PLAY;
                 gdxMenu.updateState();
             }
+            
         });
     }
 

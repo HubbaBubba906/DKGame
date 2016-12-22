@@ -10,7 +10,7 @@ public class TbMenu extends TextButton{
     public TbMenu(String text, TextButtonStyle tbs) {
         super(text, tbs);
         sText = text;
-        this.setSize(200, 80);
+        this.setSize(250, 100);
         this.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 System.out.println(sText);

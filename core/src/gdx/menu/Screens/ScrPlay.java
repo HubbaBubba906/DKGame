@@ -26,10 +26,11 @@ public class ScrPlay implements Screen, InputProcessor {
     Stage stage;
     SpriteBatch batch;
     BitmapFont screenName;
-    Texture playbutton;
-    Sprite play;
+    Texture playbutton, wooden;
+    Sprite play, wood;
     double dSpeed = 0, dGravity = 0.15;
     boolean bJump;
+    int nJumps;
     float dXstart, dYstart;
     private static final int COLS = 7;
     private static final int ROWS = 11;
@@ -41,6 +42,7 @@ public class ScrPlay implements Screen, InputProcessor {
     float SpriteSpeed = 105f;
     float Time = 0f;
     Animation animation;
+    public int woodRot;
 
     public ScrPlay(GdxMenu _gdxMenu) {
         gdxMenu = _gdxMenu;
@@ -52,16 +54,18 @@ public class ScrPlay implements Screen, InputProcessor {
         SpriteY = 0;
         playbutton = new Texture("dk menu.jpg");
         play = new Sprite(playbutton);
+        wooden = new Texture("platform.png");
+        wood = new Sprite(wooden);
         stage = new Stage();
         tbsMenu = new TbsMenu();
         batch = new SpriteBatch();
         screenName = new BitmapFont();
         tbMenu = new TbMenu("BACK TO MENU", tbsMenu);
         tbGameover = new TbMenu("GAMEOVER", tbsMenu);
-        tbMenu.setY(400);
+        tbMenu.setY(Gdx.graphics.getHeight() - 100);
         tbMenu.setX(0);
-        tbGameover.setY(0);
-        tbGameover.setX(440);
+        tbGameover.setY(Gdx.graphics.getHeight() - 100);
+        tbGameover.setX(450);
         stage.addActor(tbMenu);
         stage.addActor(tbGameover);
         Gdx.input.setInputProcessor(stage);
@@ -85,7 +89,9 @@ public class ScrPlay implements Screen, InputProcessor {
     public void render(float delta) {
         dXstart = SpriteX;
         dYstart = SpriteY;
-        if(SpriteY <= Gdx.graphics.getHeight()) dSpeed += dGravity;
+        if (SpriteY <= Gdx.graphics.getHeight()) {
+            dSpeed += dGravity;
+        }
         SpriteY -= dSpeed;
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if (Time < 4) {
@@ -113,20 +119,33 @@ public class ScrPlay implements Screen, InputProcessor {
             SpriteY -= Gdx.graphics.getDeltaTime() * SpriteSpeed;
             CurrentFrame = animation.getKeyFrame(8 + Time);
         }
-        if (bJump == true) {
-            dSpeed = -5 + Gdx.graphics.getDeltaTime() * SpriteSpeed;
-            bJump = false;
+        if (nJumps < 1) {
+            if (bJump == true) {
+                nJumps++;
+                dSpeed = -7 + Gdx.graphics.getDeltaTime() * SpriteSpeed;
+                bJump = false;
+            }
         }
         if (SpriteY <= 10) {
-           SpriteY = 10;
+            SpriteY = 10;
+            nJumps = 0;
         }
-
-
-
+        if (SpriteX >= Gdx.graphics.getWidth() - 70) {
+            SpriteX = Gdx.graphics.getWidth() - 70;
+           
+        }
+        //woodRot++;
+        //if(woodRot==360)woodRot=0;
+        wood.setRotation(/*woodRot*/90);
         batch.begin();
-        batch.draw(BackGround, 0, 0);
+        batch.draw(BackGround, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.draw(Ground, 0, 0, Gdx.graphics.getWidth(), 10);
-        batch.draw(CurrentFrame, (int) SpriteX, (int) SpriteY);
+        batch.draw(wood, 0, 90, Gdx.graphics.getWidth() - 100, 40);
+        batch.draw(wood, 100, 240, Gdx.graphics.getWidth() - 100, 40);
+        batch.draw(wood, 0, 390, Gdx.graphics.getWidth() - 100, 40);
+        batch.draw(wood, 100, 540, Gdx.graphics.getWidth() - 100, 40);
+        batch.draw(wood, 0, 690, Gdx.graphics.getWidth() - 100, 40);
+        batch.draw(CurrentFrame, (int) SpriteX, (int) SpriteY, 70, 70);
         batch.end();
         stage.act();
         stage.draw();

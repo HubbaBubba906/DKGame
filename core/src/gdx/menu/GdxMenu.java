@@ -13,13 +13,11 @@ public class GdxMenu extends Game {
     ScrGameover scrGameover;
     ScrTutorial scrTutorial;
 
-    // the below enumeration clearly defines the list of permissible screens.
     public enum GameState {
         MENU, PLAY, OVER , TUTORIAL
     }
     public GameState gameState;
     public GameState currentState;
-    // based on the current GameState, the screen is set.
 
     public void updateState() {
         if (currentState == gameState.MENU) {
@@ -35,7 +33,6 @@ public class GdxMenu extends Game {
 
     @Override
     public void create() {
-        // notice that "this" is passed to each screen. Each screen now has access to methods within the "game" master program
         scrMenu = new ScrMenu(this);
         scrPlay = new ScrPlay(this);
         scrGameover = new ScrGameover(this);

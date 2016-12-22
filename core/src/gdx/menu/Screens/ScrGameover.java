@@ -40,7 +40,7 @@ public class ScrGameover implements Screen, InputProcessor {
         tbPlay = new TbMenu("PLAY AGAIN", tbsMenu);
         tbMenu = new TbMenu("MENU", tbsMenu);
         tbPlay.setY(0);
-        tbPlay.setX(440);
+        tbPlay.setX(450);
         tbMenu.setY(0);
         tbMenu.setX(0);
         stage.addActor(tbMenu);

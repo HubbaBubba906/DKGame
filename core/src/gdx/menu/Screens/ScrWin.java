@@ -15,47 +15,45 @@ import gdx.menu.GdxMenu;
 import gdx.menu.Button;
 import gdx.menu.TbsMenu;
 
-public class ScrTutorial implements Screen, InputProcessor {
-
+public class ScrWin implements Screen, InputProcessor {
     GdxMenu gdxMenu;
     TbsMenu tbsMenu;
-    Button tbMenu;
+    Button tbPlay, tbMenu;
     Stage stage;
     SpriteBatch batch;
     BitmapFont screenName;
-    Texture TexTutorial, TexArrow, TexBanana;
-    Sprite SprTutorial, SprArrow, SprBanana;
+    Texture TexWin;
+    Sprite SprWin;
 
-    public ScrTutorial(GdxMenu _gdxMenu) {  //Referencing the main class.
+    public ScrWin(GdxMenu _gdxMenu) {  
         gdxMenu = _gdxMenu;
     }
 
     public void show() {
-        TexTutorial = new Texture("diddy_kong_wallpaper.png");
-        SprTutorial = new Sprite(TexTutorial);
-        TexArrow = new Texture("Tutorial.png");
-        SprArrow = new Sprite(TexArrow);
-        TexBanana = new Texture("Banana.png");
-        SprBanana = new Sprite(TexBanana);
+        TexWin = new Texture("youwin.png");
+        SprWin = new Sprite(TexWin);
         stage = new Stage();
         tbsMenu = new TbsMenu();
         batch = new SpriteBatch();
         screenName = new BitmapFont();
-        tbMenu = new Button("BACK", tbsMenu);
+        tbPlay = new Button("PLAY AGAIN", tbsMenu);
+        tbMenu = new Button("MENU", tbsMenu);
+        tbPlay.setY(0);
+        tbPlay.setX(450);
         tbMenu.setY(0);
         tbMenu.setX(0);
         stage.addActor(tbMenu);
+        stage.addActor(tbPlay);
         Gdx.input.setInputProcessor(stage);
         btnMenuListener();
+        btnPlayListener();
     }
 
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1); 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(SprTutorial, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(SprArrow, -50, Gdx.graphics.getHeight() - 500, 500, 500);
-        batch.draw(SprBanana, 50, 100, 300, 300);
+        batch.draw(SprWin, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
         stage.act();
         stage.draw();
@@ -70,24 +68,39 @@ public class ScrTutorial implements Screen, InputProcessor {
         });
     }
 
+    public void btnPlayListener() {
+        tbPlay.addListener(new ChangeListener() {
+            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
+                gdxMenu.currentState = gdxMenu.gameState.PLAY;
+                gdxMenu.updateState();
+            }
+            
+        });
+    }
+
     @Override
     public void resize(int width, int height) {
+
     }
 
     @Override
     public void pause() {
+
     }
 
     @Override
     public void resume() {
+
     }
 
     @Override
     public void hide() {
+
     }
 
     @Override
     public void dispose() {
+
     }
 
     @Override

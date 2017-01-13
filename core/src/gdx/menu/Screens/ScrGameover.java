@@ -13,13 +13,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import gdx.menu.GdxMenu;
-import gdx.menu.TbMenu;
+import gdx.menu.Button;
 import gdx.menu.TbsMenu;
 
 public class ScrGameover implements Screen, InputProcessor {
     GdxMenu gdxMenu;
     TbsMenu tbsMenu;
-    TbMenu tbPlay, tbMenu;
+    Button tbPlay, tbMenu;
     Stage stage;
     SpriteBatch batch;
     BitmapFont screenName;
@@ -37,8 +37,8 @@ public class ScrGameover implements Screen, InputProcessor {
         tbsMenu = new TbsMenu();
         batch = new SpriteBatch();
         screenName = new BitmapFont();
-        tbPlay = new TbMenu("PLAY AGAIN", tbsMenu);
-        tbMenu = new TbMenu("MENU", tbsMenu);
+        tbPlay = new Button("TRY AGAIN", tbsMenu);
+        tbMenu = new Button("MENU", tbsMenu);
         tbPlay.setY(0);
         tbPlay.setX(450);
         tbMenu.setY(0);

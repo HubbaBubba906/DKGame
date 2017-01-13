@@ -11,19 +11,19 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import gdx.menu.GdxMenu;
-import gdx.menu.TbMenu;
+import gdx.menu.Button;
 import gdx.menu.TbsMenu;
 
 public class ScrMenu implements Screen, InputProcessor {
 
     GdxMenu gdxMenu;
     TbsMenu tbsMenu;
-    TbMenu tbPlay, tbTutorial;
+    Button tbPlay, tbTutorial;
     Stage stage;
     SpriteBatch batch;
     BitmapFont screenName;
-    Texture playbutton, dklogo;
-    Sprite play, logo;
+    Texture playbutton, dklogo, climblogo;
+    Sprite play, logo, climb;
 
     public ScrMenu(GdxMenu _gdxMenu) {  //Referencing the main class.
         gdxMenu = _gdxMenu;
@@ -32,16 +32,18 @@ public class ScrMenu implements Screen, InputProcessor {
     public void show() {
         dklogo = new Texture("DonkeyKonglogo.png");
         logo = new Sprite(dklogo);
+        climblogo = new Texture("Dk climb.png");
+        climb = new Sprite(climblogo);
         playbutton = new Texture("jungle.jpg");
         play = new Sprite(playbutton);
         stage = new Stage();
         tbsMenu = new TbsMenu();
         batch = new SpriteBatch();
         screenName = new BitmapFont();
-        tbPlay = new TbMenu("PLAY", tbsMenu);
+        tbPlay = new Button("PLAY", tbsMenu);
         tbPlay.setY(200);
         tbPlay.setX(Gdx.graphics.getWidth() / 2 - 130);
-        tbTutorial = new TbMenu("HOW TO PLAY", tbsMenu);
+        tbTutorial = new Button("HOW TO PLAY", tbsMenu);
         tbTutorial.setY(Gdx.graphics.getHeight()- 100);
         tbTutorial.setX(0);
         stage.addActor(tbPlay);
@@ -55,6 +57,7 @@ public class ScrMenu implements Screen, InputProcessor {
         batch.begin();
         batch.draw(play, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.draw(logo, Gdx.graphics.getWidth() / 2 - 250, Gdx.graphics.getWidth()- 200, 500, 150);
+        batch.draw(climb, Gdx.graphics.getWidth() / 2 - 250, Gdx.graphics.getWidth()- 340, 500, 130);
         batch.end();
         stage.act();
         stage.draw();

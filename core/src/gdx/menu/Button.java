@@ -5,9 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 
-public class TbMenu extends TextButton{
+public class Button extends TextButton{
     String sText;
-    public TbMenu(String text, TextButtonStyle tbs) {
+    public Button(String text, TextButtonStyle tbs) {
         super(text, tbs);
         sText = text;
         this.setSize(250, 100);

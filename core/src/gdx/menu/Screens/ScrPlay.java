@@ -20,16 +20,17 @@ import gdx.menu.TbsMenu;
 import java.util.ArrayList;
 
 public class ScrPlay implements Screen, InputProcessor {
-
+    
     ArrayList<Platform> arPlatforms = new ArrayList<Platform>();
     GdxMenu gdxMenu;
     TbsMenu tbsMenu;
     Button tbMenu, tbGameover, tbWin;
     Stage stage;
+    int MOUSEX, MOUSEY;
     SpriteBatch batch;
     BitmapFont screenName;
-    Texture TexWooden, TexBanana;
-    Sprite SprWood, SprBanana;
+    Texture TexWooden, TexBanana, imgCursor;
+    Sprite SprWood, SprBanana, spCursor;
     double dSpeed = 0, dGravity = 0.25;
     boolean bJump;
     int nJumps, DKSize = 60;
@@ -52,6 +53,10 @@ public class ScrPlay implements Screen, InputProcessor {
     }
 
     public void show() {
+             
+
+        imgCursor = new Texture("DKHammer.png");
+        spCursor = new Sprite(imgCursor);
         dSpeed = 0;
         DKX = 0;
         DKY = 0;
@@ -97,7 +102,8 @@ public class ScrPlay implements Screen, InputProcessor {
 
     }
 //if (dkx + dk width > platform x && dk x < platform x+ plaform width &&
- // + dk y + dk height > platform y && dk y < platform y+ plaform height) {  
+    // + dk y + dk height > platform y && dk y < platform y+ plaform height) {  
+
     public void render(float delta) {
         for (int i = 0; i < arPlatforms.size(); i++) {
             arPlatforms.get(i).display();
@@ -115,39 +121,55 @@ public class ScrPlay implements Screen, InputProcessor {
         } else {
             Time = 0;
         }
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);       
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         CurrentFrame = animation.getKeyFrame(0);      // movement/animation
-
-        if (Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT) && DKX > 0) {      
+        
+        if (Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT) && DKX > 0) {
             DKX -= Gdx.graphics.getDeltaTime() * SpriteSpeed;
             CurrentFrame = animation.getKeyFrame(6 + Time);
+            
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT) && DKX < Gdx.graphics.getWidth()) {
             DKX += Gdx.graphics.getDeltaTime() * SpriteSpeed;
             CurrentFrame = animation.getKeyFrame(0 + Time);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.DPAD_UP) && DKY < Gdx.graphics.getHeight()) {
-            bJump = true;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.DPAD_UP) && DKY < Gdx.graphics.getHeight()) {
+            nJumps += 1;
             CurrentFrame = animation.getKeyFrame(12);
         }
-       
-// if (DKX + DKSize > platform x && DKX < platformx+ plaformwidth &&
+
+// if (DKX + DKSize > platform x && DKX < platformx + plaformwidth &&
 //      +   DKY + DKSize > platform y && DKY < platform y+ plaform height) {  
 //    }
-        if (nJumps < 1) {
-            if (bJump == true) {
-                CurrentFrame = animation.getKeyFrame(13);
-                dSpeed = -7 + Gdx.graphics.getDeltaTime() * SpriteSpeed;
-                nJumps = 12;
+
+        if (DKX + DKSize > 0 && DKX < 0 + Gdx.graphics.getWidth() - 100 //Hitdect
+                && +DKY + DKSize > 100 && DKY < 100 + 30) {
+            if (DKX + DKSize < 90 && DKX > Gdx.graphics.getWidth() - 100) {
+                DKX = Gdx.graphics.getWidth() - 100;
+            }
+            if (DKY <= 95) { //bottomhit test
+                DKY = 100 - DKSize;
+                dSpeed *= -1;
                 bJump = false;
+            } else if (DKY + DKSize >= 110) { //top hit test
+                DKY = 110;
+                nJumps = 0;
             }
         }
+
+        if (nJumps == 2) {
+            CurrentFrame = animation.getKeyFrame(13);
+            dSpeed = -7 + Gdx.graphics.getDeltaTime() * SpriteSpeed;
+            nJumps = 0;
+            bJump = false;
+        }
+
         if (DKY <= 5) {  //floor hit test
             DKY = 1;
             nJumps = 0;
         }
-        if (DKX >= Gdx.graphics.getWidth() - 70) {
-            DKX = Gdx.graphics.getWidth() - 70;
+        if (DKX >= Gdx.graphics.getWidth() - 50) {
+            DKX = Gdx.graphics.getWidth() - 50;
         }
 //        if (DKY >= 50 && DKY <= 90 && DKX <= Gdx.graphics.getWidth() - 125 && DKX >= 0) {
 //            //if ()
@@ -167,6 +189,7 @@ public class ScrPlay implements Screen, InputProcessor {
         batch.draw(SprWood, 0, 420, Gdx.graphics.getWidth() - 100, 30);
         batch.draw(SprWood, 100, 580, Gdx.graphics.getWidth() - 100, 30);
         batch.draw(CurrentFrame, (int) DKX, (int) DKY, DKSize, DKSize);
+        batch.draw(spCursor, Gdx.input.getX()-Gdx.graphics.getHeight()/80, Gdx.graphics.getHeight()-Gdx.input.getY()-Gdx.graphics.getHeight()/60, Gdx.graphics.getHeight()/20, Gdx.graphics.getHeight()/20);
         batch.end();
         stage.act();
         stage.draw();

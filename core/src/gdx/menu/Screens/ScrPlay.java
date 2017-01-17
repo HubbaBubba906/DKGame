@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -20,7 +22,7 @@ import gdx.menu.TbsMenu;
 import java.util.ArrayList;
 
 public class ScrPlay implements Screen, InputProcessor {
-    
+
     ArrayList<Platform> arPlatforms = new ArrayList<Platform>();
     GdxMenu gdxMenu;
     TbsMenu tbsMenu;
@@ -53,8 +55,8 @@ public class ScrPlay implements Screen, InputProcessor {
     }
 
     public void show() {
-             
-
+//        Cursor customCursor = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("DKHammer.png")), 10,10);
+//        Gdx.graphics.setCursor(customCursor);
         imgCursor = new Texture("DKHammer.png");
         spCursor = new Sprite(imgCursor);
         dSpeed = 0;
@@ -71,15 +73,6 @@ public class ScrPlay implements Screen, InputProcessor {
         tbMenu = new Button("BACK TO MENU", tbsMenu);
         tbWin = new Button("WIN", tbsMenu);
         tbGameover = new Button("GAMEOVER", tbsMenu);
-        tbMenu.setY(Gdx.graphics.getHeight() - 100);
-        tbMenu.setX(0);
-        tbGameover.setY(Gdx.graphics.getHeight() - 100);
-        tbGameover.setX(450);
-        tbWin.setY(Gdx.graphics.getHeight() - 100);
-        tbWin.setX(200);
-        stage.addActor(tbMenu);
-        stage.addActor(tbGameover);
-        stage.addActor(tbWin);
         Gdx.input.setInputProcessor(stage);
         btnMenuListener();
         btnGameoverListener();
@@ -123,18 +116,18 @@ public class ScrPlay implements Screen, InputProcessor {
         }
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         CurrentFrame = animation.getKeyFrame(0);      // movement/animation
-        
+
         if (Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT) && DKX > 0) {
             DKX -= Gdx.graphics.getDeltaTime() * SpriteSpeed;
             CurrentFrame = animation.getKeyFrame(6 + Time);
-            
+
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT) && DKX < Gdx.graphics.getWidth()) {
             DKX += Gdx.graphics.getDeltaTime() * SpriteSpeed;
             CurrentFrame = animation.getKeyFrame(0 + Time);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.DPAD_UP) && DKY < Gdx.graphics.getHeight()) {
-            nJumps += 1;
+            nJumps = 2;
             CurrentFrame = animation.getKeyFrame(12);
         }
 
@@ -189,10 +182,21 @@ public class ScrPlay implements Screen, InputProcessor {
         batch.draw(SprWood, 0, 420, Gdx.graphics.getWidth() - 100, 30);
         batch.draw(SprWood, 100, 580, Gdx.graphics.getWidth() - 100, 30);
         batch.draw(CurrentFrame, (int) DKX, (int) DKY, DKSize, DKSize);
-        batch.draw(spCursor, Gdx.input.getX()-Gdx.graphics.getHeight()/80, Gdx.graphics.getHeight()-Gdx.input.getY()-Gdx.graphics.getHeight()/60, Gdx.graphics.getHeight()/20, Gdx.graphics.getHeight()/20);
         batch.end();
         stage.act();
         stage.draw();
+        tbMenu.setY(Gdx.graphics.getHeight() - 100);
+        tbMenu.setX(0);
+        tbGameover.setY(Gdx.graphics.getHeight() - 100);
+        tbGameover.setX(450);
+        tbWin.setY(Gdx.graphics.getHeight() - 100);
+        tbWin.setX(200);
+        stage.addActor(tbMenu);
+        stage.addActor(tbGameover);
+        stage.addActor(tbWin);
+        batch.begin();
+        batch.draw(spCursor, Gdx.input.getX() - Gdx.graphics.getHeight() / 80, Gdx.graphics.getHeight() - Gdx.input.getY() - Gdx.graphics.getHeight() / 60, Gdx.graphics.getHeight() / 20, Gdx.graphics.getHeight() / 20);
+        batch.end();
     }
 
     public void btnGameoverListener() {

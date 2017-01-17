@@ -31,7 +31,7 @@ public class ScrTutorial implements Screen, InputProcessor {
     }
 
     public void show() {
-        TexTutorial = new Texture("diddy_kong_wallpaper.png");
+        TexTutorial = new Texture("donkey-swinging.png");
         SprTutorial = new Sprite(TexTutorial);
         TexArrow = new Texture("Tutorial.png");
         SprArrow = new Sprite(TexArrow);
@@ -42,7 +42,7 @@ public class ScrTutorial implements Screen, InputProcessor {
         batch = new SpriteBatch();
         screenName = new BitmapFont();
         tbMenu = new Button("BACK", tbsMenu);
-        tbMenu.setY(0);
+        tbMenu.setY(700);
         tbMenu.setX(0);
         stage.addActor(tbMenu);
         Gdx.input.setInputProcessor(stage);
@@ -50,12 +50,12 @@ public class ScrTutorial implements Screen, InputProcessor {
     }
 
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(210,105,30,56);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(SprTutorial, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(SprArrow, -50, Gdx.graphics.getHeight() - 500, 500, 500);
-        batch.draw(SprBanana, 50, 100, 300, 300);
+        batch.draw(SprTutorial, 0, 200, 500, 600);
+        batch.draw(SprArrow, 350, 200, 400, 400);
+        batch.draw(SprBanana, 50, 100, 200, 200);
         batch.end();
         stage.act();
         stage.draw();

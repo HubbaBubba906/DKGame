@@ -3,8 +3,6 @@ import java.util.Iterator;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -19,8 +17,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class HitDect implements Screen, InputProcessor {
-    
+public class HitDect implements ApplicationListener {
 	private Texture txDrop;
 	private Texture txBucket;
 	private Sound dropSound;
@@ -35,12 +32,20 @@ public class HitDect implements Screen, InputProcessor {
     private BitmapFont font;
     private int spawnMillis;
 
-		public void create() {
+	@Override
+	public void create() {
+		// load the images for the droplet and the bucket, 64x64 pixels each
+		txDrop = new Texture(Gdx.files.internal("droplet.png"));
+		txBucket = new Texture(Gdx.files.internal("bucket.png"));
         font =new BitmapFont();
         nLives=3;
         spawnMillis = 1000;
 		sprBucket= new Sprite(txBucket);
 		sprDrop= new Sprite(txDrop);
+
+		// load the drop sound effect and the rain background "music"
+		dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
+		rainMusic = Gdx.audio.newMusic(Gdx.files.internal("rain.mp3"));
 
 		// start the playback of the background music immediately
 		rainMusic.setLooping(true);
@@ -62,7 +67,8 @@ public class HitDect implements Screen, InputProcessor {
 		lastDropTime = TimeUtils.nanoTime();
 	}
 
-		public void render() {
+	@Override
+	public void render() {
 		// clear the screen with a dark blue color. The
 		// arguments to glClearColor are the red, green
 		// blue and alpha component in the range [0,1]
@@ -114,6 +120,10 @@ public class HitDect implements Screen, InputProcessor {
         spawnMillis = 1000 - (nScore * 5 / 2);
      	if(TimeUtils.nanoTime() - lastDropTime > 1000000 * spawnMillis) spawnRaindrop();
 
+		// move the raindrops, remove any that are beneath the bottom edge of
+		// the screen or that hit the bucket. In the later case we play back
+		// a sound effect as well.
+		//Iterator<Rectangle> iter = raindrops.iterator();
 		Iterator<Sprite> iter = arsprDrop.iterator();
 		while(iter.hasNext()) {
 			Sprite sprDrop = iter.next();
@@ -153,59 +163,4 @@ public class HitDect implements Screen, InputProcessor {
 	@Override
 	public void resume() {
 	}
-
-    @Override
-    public void show() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void render(float delta) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void hide() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

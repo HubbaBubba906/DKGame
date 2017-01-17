@@ -101,7 +101,6 @@ public class ScrPlay implements Screen, InputProcessor {
         for (int i = 0; i < arPlatforms.size(); i++) {
             arPlatforms.get(i).display();
         }
-        nJumps = 0;
         dXstart = DKX;
         dYstart = DKY;
         if (DKY <= Gdx.graphics.getHeight()) { //Gravity
@@ -127,6 +126,7 @@ public class ScrPlay implements Screen, InputProcessor {
             CurrentFrame = animation.getKeyFrame(0 + Time);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.DPAD_UP) && DKY < Gdx.graphics.getHeight()) {
+            
             nJumps = 2;
             CurrentFrame = animation.getKeyFrame(12);
         }
@@ -144,15 +144,17 @@ public class ScrPlay implements Screen, InputProcessor {
                 DKY = 100 - DKSize;
                 dSpeed *= -1;
                 bJump = false;
-            } else if (DKY + DKSize >= 110) { //top hit test
+            } else if (DKY - DKSize <= 110) { //top hit test
                 DKY = 110;
+                dGravity = 0;
                 nJumps = 0;
+            } else if (DKY + DKSize <= 110 && DKY >= 95) {
             }
         }
 
         if (nJumps == 2) {
             CurrentFrame = animation.getKeyFrame(13);
-            dSpeed = -7 + Gdx.graphics.getDeltaTime() * SpriteSpeed;
+            dSpeed = -10 + Gdx.graphics.getDeltaTime() * SpriteSpeed;
             nJumps = 0;
             bJump = false;
         }

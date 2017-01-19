@@ -26,7 +26,7 @@ public class ScrPlay implements Screen, InputProcessor {
     ArrayList<Platform> arPlatforms = new ArrayList<Platform>();
     GdxMenu gdxMenu;
     TbsMenu tbsMenu;
-    Button tbMenu, tbGameover, tbWin;
+    Button tbMenu, tbGameover;
     Stage stage;
     int MOUSEX, MOUSEY;
     SpriteBatch batch;
@@ -55,8 +55,6 @@ public class ScrPlay implements Screen, InputProcessor {
     }
 
     public void show() {
-//        Cursor customCursor = Gdx.graphics.newCursor(new Pixmap(Gdx.files.internal("DKHammer.png")), 10,10);
-//        Gdx.graphics.setCursor(customCursor);
         imgCursor = new Texture("DKHammer.png");
         spCursor = new Sprite(imgCursor);
         dSpeed = 0;
@@ -71,12 +69,10 @@ public class ScrPlay implements Screen, InputProcessor {
         batch = new SpriteBatch();
         screenName = new BitmapFont();
         tbMenu = new Button("BACK TO MENU", tbsMenu);
-        tbWin = new Button("WIN", tbsMenu);
         tbGameover = new Button("GAMEOVER", tbsMenu);
         Gdx.input.setInputProcessor(stage);
         btnMenuListener();
         btnGameoverListener();
-        btnWinListener();
         batch = new SpriteBatch();
         BackGround = new Texture(Gdx.files.internal("back.jpg"));
         Ground = new Texture(Gdx.files.internal("ground.png"));
@@ -90,17 +86,19 @@ public class ScrPlay implements Screen, InputProcessor {
             }
         }
         animation = new Animation(1f, frames);
-        p = new Platform(0, 100, Gdx.graphics.getWidth() - 100, 30, batch);
+        p = new Platform(0, 100, Gdx.graphics.getWidth() - 100, 40, batch);
         arPlatforms.add(p);
-
+        p = new Platform(100, 260, Gdx.graphics.getWidth() - 100, 40, batch);
+        arPlatforms.add(p);
+        p = new Platform( 0, 420, Gdx.graphics.getWidth() - 100, 40, batch);
+        arPlatforms.add(p);
+        p = new Platform(100, 580, Gdx.graphics.getWidth() - 100, 40, batch);
+        arPlatforms.add(p);
     }
 //if (dkx + dk width > platform x && dk x < platform x+ plaform width &&
     // + dk y + dk height > platform y && dk y < platform y+ plaform height) {  
 
     public void render(float delta) {
-        for (int i = 0; i < arPlatforms.size(); i++) {
-            arPlatforms.get(i).display();
-        }
         dXstart = DKX;
         dYstart = DKY;
         if (DKY <= Gdx.graphics.getHeight()) { //Gravity
@@ -126,8 +124,7 @@ public class ScrPlay implements Screen, InputProcessor {
             CurrentFrame = animation.getKeyFrame(0 + Time);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.DPAD_UP) && DKY < Gdx.graphics.getHeight()) {
-            
-            nJumps = 2;
+            bJump = true;
             CurrentFrame = animation.getKeyFrame(12);
         }
 
@@ -136,32 +133,28 @@ public class ScrPlay implements Screen, InputProcessor {
 //    }
 
         if (DKX + DKSize > 0 && DKX < 0 + Gdx.graphics.getWidth() - 100 //Hitdect
-                && +DKY + DKSize > 100 && DKY < 100 + 30) {
+                && +DKY + DKSize > 100 && DKY < 100 + 40) {
             if (DKX + DKSize < 90 && DKX > Gdx.graphics.getWidth() - 100) {
                 DKX = Gdx.graphics.getWidth() - 100;
             }
-            if (DKY <= 95) { //bottomhit test
+            if (DKY <= 85) { //bottomhit test
                 DKY = 100 - DKSize;
                 dSpeed *= -1;
-                bJump = false;
-            } else if (DKY - DKSize <= 110) { //top hit test
-                DKY = 110;
-                dGravity = 0;
+            } else if (DKY - DKSize <= 115) { //top hit test
+                dSpeed = 0;
                 nJumps = 0;
             } else if (DKY + DKSize <= 110 && DKY >= 95) {
             }
         }
 
-        if (nJumps == 2) {
+        if (bJump == true) {
             CurrentFrame = animation.getKeyFrame(13);
             dSpeed = -10 + Gdx.graphics.getDeltaTime() * SpriteSpeed;
-            nJumps = 0;
-            bJump = false;
+            bJump = true;
         }
 
         if (DKY <= 5) {  //floor hit test
             DKY = 1;
-            nJumps = 0;
         }
         if (DKX >= Gdx.graphics.getWidth() - 50) {
             DKX = Gdx.graphics.getWidth() - 50;
@@ -179,10 +172,11 @@ public class ScrPlay implements Screen, InputProcessor {
         batch.draw(BackGround, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.draw(Ground, 0, 0, Gdx.graphics.getWidth(), 10);
         batch.draw(SprBanana, Gdx.graphics.getWidth() - 200, Gdx.graphics.getHeight() - 180, 70, 70);
-        batch.draw(SprWood, 0, 100, Gdx.graphics.getWidth() - 100, 30);
-        batch.draw(SprWood, 100, 260, Gdx.graphics.getWidth() - 100, 30);
-        batch.draw(SprWood, 0, 420, Gdx.graphics.getWidth() - 100, 30);
-        batch.draw(SprWood, 100, 580, Gdx.graphics.getWidth() - 100, 30);
+        batch.draw(SprWood, 0, 100, Gdx.graphics.getWidth() - 100, 40);
+        batch.draw(SprWood, 100, 260, Gdx.graphics.getWidth() - 100, 40);
+        batch.draw(SprWood, 0, 420, Gdx.graphics.getWidth() - 100, 40);
+        batch.draw(SprWood, 100, 580, Gdx.graphics.getWidth() - 100, 40);
+       
         batch.draw(CurrentFrame, (int) DKX, (int) DKY, DKSize, DKSize);
         batch.end();
         stage.act();
@@ -191,11 +185,8 @@ public class ScrPlay implements Screen, InputProcessor {
         tbMenu.setX(0);
         tbGameover.setY(Gdx.graphics.getHeight() - 100);
         tbGameover.setX(450);
-        tbWin.setY(Gdx.graphics.getHeight() - 100);
-        tbWin.setX(200);
         stage.addActor(tbMenu);
         stage.addActor(tbGameover);
-        stage.addActor(tbWin);
         batch.begin();
         batch.draw(spCursor, Gdx.input.getX() - Gdx.graphics.getHeight() / 80, Gdx.graphics.getHeight() - Gdx.input.getY() - Gdx.graphics.getHeight() / 60, Gdx.graphics.getHeight() / 20, Gdx.graphics.getHeight() / 20);
         batch.end();
@@ -214,15 +205,6 @@ public class ScrPlay implements Screen, InputProcessor {
         tbMenu.addListener(new ChangeListener() {
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
                 gdxMenu.currentState = gdxMenu.gameState.MENU;
-                gdxMenu.updateState();
-            }
-        });
-    }
-
-    public void btnWinListener() {
-        tbWin.addListener(new ChangeListener() {
-            public void changed(ChangeListener.ChangeEvent event, Actor actor) {
-                gdxMenu.currentState = gdxMenu.gameState.WIN;
                 gdxMenu.updateState();
             }
         });

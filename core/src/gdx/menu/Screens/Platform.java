@@ -27,7 +27,7 @@ public class Platform {
     
     public void display () {
         batch.begin();
-        batch.draw(spPlat, fX, fY);
+        batch.draw(spPlat, fX, fY, fWidth, fHeight);
         batch.end();
     }
     

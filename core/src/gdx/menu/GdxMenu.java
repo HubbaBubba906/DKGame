@@ -5,7 +5,6 @@ import gdx.menu.Screens.ScrMenu;
 import gdx.menu.Screens.ScrPlay;
 import gdx.menu.Screens.ScrGameover;
 import gdx.menu.Screens.ScrTutorial;
-import gdx.menu.Screens.ScrWin;
 
 public class GdxMenu extends Game {
 
@@ -13,7 +12,6 @@ public class GdxMenu extends Game {
     ScrPlay scrPlay;
     ScrGameover scrGameover;
     ScrTutorial scrTutorial;
-    ScrWin scrWin;
 
     public enum GameState {
         MENU, PLAY, OVER , TUTORIAL, WIN
@@ -30,9 +28,7 @@ public class GdxMenu extends Game {
             setScreen(scrGameover);
         } else if (currentState == gameState.TUTORIAL) {
             setScreen(scrTutorial);
-        }  else if (currentState == gameState.WIN) {
-            setScreen(scrWin);
-        }
+        }  
     }
 
     @Override

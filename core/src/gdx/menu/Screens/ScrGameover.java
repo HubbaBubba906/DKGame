@@ -23,16 +23,18 @@ public class ScrGameover implements Screen, InputProcessor {
     Stage stage;
     SpriteBatch batch;
     BitmapFont screenName;
-    Texture gameover;
-    Sprite game;
+    Texture TexGameover, imgCursor;
+    Sprite sprGameover, spCursor;
 
     public ScrGameover(GdxMenu _gdxMenu) {  //Referencing the main class.
         gdxMenu = _gdxMenu;
     }
 
     public void show() {
-        gameover = new Texture("gameover.jpg");
-        game = new Sprite(gameover);
+        imgCursor = new Texture("DKHammer.png");
+        spCursor = new Sprite(imgCursor);
+        TexGameover = new Texture("gameover.jpg");
+        sprGameover = new Sprite(TexGameover);
         stage = new Stage();
         tbsMenu = new TbsMenu();
         batch = new SpriteBatch();
@@ -54,10 +56,13 @@ public class ScrGameover implements Screen, InputProcessor {
         Gdx.gl.glClearColor(0, 0, 0, 1); 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(game, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(sprGameover, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
         stage.act();
         stage.draw();
+        batch.begin();
+        batch.draw(spCursor, Gdx.input.getX() - Gdx.graphics.getHeight() / 80, Gdx.graphics.getHeight() - Gdx.input.getY() - Gdx.graphics.getHeight() / 60, Gdx.graphics.getHeight() / 20, Gdx.graphics.getHeight() / 20);
+        batch.end();
     }
 
     public void btnMenuListener() {

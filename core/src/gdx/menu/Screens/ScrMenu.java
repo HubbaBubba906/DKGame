@@ -22,20 +22,22 @@ public class ScrMenu implements Screen, InputProcessor {
     Stage stage;
     SpriteBatch batch;
     BitmapFont screenName;
-    Texture playbutton, dklogo, climblogo;
-    Sprite play, logo, climb;
+    Texture texBackground, texDKlogo, texClimblogo, imgCursor;
+    Sprite sprBackGround, sprDKlogo, sprClimblogo, spCursor;
 
     public ScrMenu(GdxMenu _gdxMenu) {  //Referencing the main class.
         gdxMenu = _gdxMenu;
     }
 
     public void show() {
-        dklogo = new Texture("DonkeyKonglogo.png");
-        logo = new Sprite(dklogo);
-        climblogo = new Texture("Dk climb.png");
-        climb = new Sprite(climblogo);
-        playbutton = new Texture("jungle.jpg");
-        play = new Sprite(playbutton);
+        imgCursor = new Texture("DKHammer.png");
+        spCursor = new Sprite(imgCursor);
+        texDKlogo = new Texture("DonkeyKonglogo.png");
+        sprDKlogo = new Sprite(texDKlogo);
+        texClimblogo = new Texture("Dk climb.png");
+        sprClimblogo = new Sprite(texClimblogo);
+        texBackground = new Texture("jungle.jpg");
+        sprBackGround = new Sprite(texBackground);
         stage = new Stage();
         tbsMenu = new TbsMenu();
         batch = new SpriteBatch();
@@ -55,12 +57,15 @@ public class ScrMenu implements Screen, InputProcessor {
 
     public void render(float delta) {
         batch.begin();
-        batch.draw(play, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(logo, Gdx.graphics.getWidth() / 2 - 250, Gdx.graphics.getWidth()- 200, 500, 150);
-        batch.draw(climb, Gdx.graphics.getWidth() / 2 - 250, Gdx.graphics.getWidth()- 340, 500, 130);
+        batch.draw(sprBackGround, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(sprDKlogo, Gdx.graphics.getWidth() / 2 - 250, Gdx.graphics.getWidth()- 200, 500, 150);
+        batch.draw(sprClimblogo, Gdx.graphics.getWidth() / 2 - 250, Gdx.graphics.getWidth()- 340, 500, 130);
         batch.end();
         stage.act();
         stage.draw();
+        batch.begin();
+        batch.draw(spCursor, Gdx.input.getX() - Gdx.graphics.getHeight() / 80, Gdx.graphics.getHeight() - Gdx.input.getY() - Gdx.graphics.getHeight() / 60, Gdx.graphics.getHeight() / 20, Gdx.graphics.getHeight() / 20);
+        batch.end();
     }
 
     public void btnPlayListener() {

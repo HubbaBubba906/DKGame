@@ -23,20 +23,26 @@ public class ScrTutorial implements Screen, InputProcessor {
     Stage stage;
     SpriteBatch batch;
     BitmapFont screenName;
-    Texture TexTutorial, TexArrow, TexBanana;
-    Sprite SprTutorial, SprArrow, SprBanana;
+    Texture TexTutorial, texBackground, TexArrow, TexBanana, imgCursor, imgTitle;
+    Sprite SprTutorial, sprBackGround, SprArrow, SprBanana, spCursor, spTitle;
 
     public ScrTutorial(GdxMenu _gdxMenu) {  //Referencing the main class.
         gdxMenu = _gdxMenu;
     }
 
     public void show() {
+        imgCursor = new Texture("DKHammer.png"); 
+        spCursor = new Sprite(imgCursor);
+        imgTitle = new Texture("TItle.png"); 
+        spTitle = new Sprite(imgTitle);
         TexTutorial = new Texture("donkey-swinging.png");
         SprTutorial = new Sprite(TexTutorial);
         TexArrow = new Texture("Tutorial.png");
         SprArrow = new Sprite(TexArrow);
         TexBanana = new Texture("Banana.png");
         SprBanana = new Sprite(TexBanana);
+        texBackground = new Texture("jungle.jpg");
+        sprBackGround = new Sprite(texBackground);
         stage = new Stage();
         tbsMenu = new TbsMenu();
         batch = new SpriteBatch();
@@ -53,12 +59,17 @@ public class ScrTutorial implements Screen, InputProcessor {
         Gdx.gl.glClearColor(210,105,30,56);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(SprTutorial, 0, 200, 500, 600);
+        batch.draw(sprBackGround, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(SprTutorial, 50, 350, 350, 450);
         batch.draw(SprArrow, 350, 200, 400, 400);
-        batch.draw(SprBanana, 50, 100, 200, 200);
+        batch.draw(SprBanana, 450, 50, 200, 200);
+        batch.draw(spTitle, 10, 60, 300, 300);
         batch.end();
         stage.act();
         stage.draw();
+        batch.begin();
+        batch.draw(spCursor, Gdx.input.getX() - Gdx.graphics.getHeight() / 80, Gdx.graphics.getHeight() - Gdx.input.getY() - Gdx.graphics.getHeight() / 60, Gdx.graphics.getHeight() / 20, Gdx.graphics.getHeight() / 20);
+        batch.end();
     }
 
     public void btnMenuListener() {

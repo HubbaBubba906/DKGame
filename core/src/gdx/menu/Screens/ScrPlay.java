@@ -123,9 +123,10 @@ public class ScrPlay implements Screen, InputProcessor {
             DKX += Gdx.graphics.getDeltaTime() * SpriteSpeed;
             CurrentFrame = animation.getKeyFrame(0 + Time);
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.DPAD_UP) && DKY < Gdx.graphics.getHeight()) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.DPAD_UP) && DKY < Gdx.graphics.getHeight() /*&& nJumps == 0*/) {
             bJump = true;
             CurrentFrame = animation.getKeyFrame(12);
+            nJumps++;
         }
 
 // if (DKX + DKSize > platform x && DKX < platformx + plaformwidth &&
@@ -156,6 +157,7 @@ public class ScrPlay implements Screen, InputProcessor {
 
         if (DKY <= 5) {  //floor hit test
             DKY = 1;
+            nJumps = 0;
         }
         if (DKX >= Gdx.graphics.getWidth() - 50) {
             DKX = Gdx.graphics.getWidth() - 50;
@@ -174,10 +176,10 @@ public class ScrPlay implements Screen, InputProcessor {
         batch.draw(Ground, 0, 0, Gdx.graphics.getWidth(), 10);
         batch.draw(SprBanana, Gdx.graphics.getWidth() - 200, Gdx.graphics.getHeight() - 180, 70, 70);
         batch.draw(SprWood, 0, 100, Gdx.graphics.getWidth() - 100, 40);
-        batch.draw(SprWood, 100, 230, Gdx.graphics.getWidth() - 100, 40);
-        batch.draw(SprWood, 0, 360, Gdx.graphics.getWidth() - 100, 40);
-        batch.draw(SprWood, 100, 490, Gdx.graphics.getWidth() - 100, 40);
-       
+        batch.draw(SprWood, 100, 240, Gdx.graphics.getWidth() - 100, 40);
+        batch.draw(SprWood, 0, 380, Gdx.graphics.getWidth() - 100, 40);
+        batch.draw(SprWood, 100, 520, Gdx.graphics.getWidth() - 100, 40);
+        batch.draw(SprWood, Gdx.graphics.getWidth() - 200, 630, 200, 40);
         batch.draw(CurrentFrame, (int) DKX, (int) DKY, DKSize, DKSize);
         batch.end();
         stage.act();

@@ -140,7 +140,8 @@ public class ScrPlay implements Screen, InputProcessor {
             if (DKY <= 85) { //bottomhit test
                 DKY = 100 - DKSize;
                 dSpeed *= -1;
-            } else if (DKY - DKSize <= 115) { //top hit test
+            } else if (DKY - DKSize <= 60) { //top hit test
+                DKY++;
                 dSpeed = 0;
                 nJumps = 0;
             } else if (DKY + DKSize <= 110 && DKY >= 95) {
@@ -150,7 +151,7 @@ public class ScrPlay implements Screen, InputProcessor {
         if (bJump == true) {
             CurrentFrame = animation.getKeyFrame(13);
             dSpeed = -10 + Gdx.graphics.getDeltaTime() * SpriteSpeed;
-            bJump = true;
+            bJump = false;
         }
 
         if (DKY <= 5) {  //floor hit test
@@ -173,9 +174,9 @@ public class ScrPlay implements Screen, InputProcessor {
         batch.draw(Ground, 0, 0, Gdx.graphics.getWidth(), 10);
         batch.draw(SprBanana, Gdx.graphics.getWidth() - 200, Gdx.graphics.getHeight() - 180, 70, 70);
         batch.draw(SprWood, 0, 100, Gdx.graphics.getWidth() - 100, 40);
-        batch.draw(SprWood, 100, 260, Gdx.graphics.getWidth() - 100, 40);
-        batch.draw(SprWood, 0, 420, Gdx.graphics.getWidth() - 100, 40);
-        batch.draw(SprWood, 100, 580, Gdx.graphics.getWidth() - 100, 40);
+        batch.draw(SprWood, 100, 230, Gdx.graphics.getWidth() - 100, 40);
+        batch.draw(SprWood, 0, 360, Gdx.graphics.getWidth() - 100, 40);
+        batch.draw(SprWood, 100, 490, Gdx.graphics.getWidth() - 100, 40);
        
         batch.draw(CurrentFrame, (int) DKX, (int) DKY, DKSize, DKSize);
         batch.end();

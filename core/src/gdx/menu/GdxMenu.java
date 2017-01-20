@@ -14,7 +14,7 @@ public class GdxMenu extends Game {
     ScrTutorial scrTutorial;
 
     public enum GameState {
-        MENU, PLAY, OVER , TUTORIAL, WIN
+        MENU, PLAY, OVER , TUTORIAL
     }
     public GameState gameState;
     public GameState currentState;
